@@ -10,11 +10,11 @@ going deeper on what I already covered, learning what I never reached, and under
 
 | Section | Topic                                                                           | Status |
 |---------|---------------------------------------------------------------------------------|--------|
-| 1       | Getting Started with Java Programming                                           | ⬜      |
-| 2       | Java Development Environment Setup                                              | ⬜      |
-| 3       | First Steps in Java Programming                                                 | ⬜      |
-| 4       | Transitioning from JShell to IntelliJ IDEA: A Comprehensive IDE Guide           | ⬜      |
-| 5       | Mastering Java Expressions, Statements, Code Blocks, And Method Overloading     | ⬜      |
+| 1       | Getting Started with Java Programming                                           | ✅      |
+| 2       | Java Development Environment Setup                                              | ✅      |
+| 3       | First Steps in Java Programming                                                 | ✅      |
+| 4       | Transitioning from JShell to IntelliJ IDEA: A Comprehensive IDE Guide           | ✅      |
+| 5       | Mastering Java Expressions, Statements, Code Blocks, And Method Overloading     | 🔄      |
 | 6       | Mastering Conditional Logic, Loops, And Interactive Java Applications           | ⬜      |
 | 7       | Mastering Java OOP: Classes & Inheritance                                       | ⬜      |
 | 8       | Advanced OOP Techniques: Composition, Encapsulation, and Polymorphism in Action | ⬜      |
