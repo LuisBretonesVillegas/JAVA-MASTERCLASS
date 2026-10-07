@@ -25,7 +25,7 @@ Examples of input/output:
 NOTE: The method isLeapYear needs to be defined as public static ​like we have been doing so far in the course.
 NOTE: Do not add a  main method to solution code.
  */
-package sesion05;
+package section05;
 
 public class LeapYear {
     public static boolean isLeapYear(int year){

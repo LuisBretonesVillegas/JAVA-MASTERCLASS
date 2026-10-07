@@ -21,7 +21,7 @@ NOTES
     Do not add main method to solution code.
     The solution will not be accepted if there are extra spaces
  */
-package sesion05;
+package section05;
 
 public class MinutesToYearsDaysCalculator {
 

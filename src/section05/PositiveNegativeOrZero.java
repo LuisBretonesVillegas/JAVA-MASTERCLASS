@@ -15,7 +15,7 @@ The method should not return any value, and it needs to print out:
 
 NOTE:  The checkNumber method needs to be defined as public static like we have been doing so far in the course.
  */
-package sesion05;
+package section05;
 
 public class PositiveNegativeOrZero {
     public static void checkNumber(int number){

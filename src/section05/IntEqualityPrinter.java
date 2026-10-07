@@ -15,7 +15,7 @@ NOTES
     The method printEqual needs to be defined as public static ​like we have been doing so far in the course.
     Do not add main method to solution code.
  */
-package sesion05;
+package section05;
 
 public class IntEqualityPrinter {
     public static void printEqual(int a, int b, int c) {

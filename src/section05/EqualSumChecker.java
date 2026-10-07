@@ -16,7 +16,7 @@ EXAMPLES OF INPUT/OUTPUT:
 NOTE: The hasEqualSum method needs to be defined as public static ​like we have been doing so far in the course.
 NOTE: Do not add a  main method to solution code.
  */
-package sesion05;
+package section05;
 
 public class EqualSumChecker {
 

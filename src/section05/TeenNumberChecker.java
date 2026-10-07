@@ -14,7 +14,7 @@ EXAMPLES OF INPUT/OUTPUT:
 NOTE: All methods need to be defined as public static ​like we have been doing so far in the course.
 NOTE: Do not add a  main method to solution code.
  */
-package sesion05;
+package section05;
 
 public class TeenNumberChecker {
     public static boolean hasTeen(int a, int b, int c){

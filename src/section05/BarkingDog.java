@@ -29,7 +29,7 @@ NOTE: The shouldWakeUp method  needs to be defined as public static ​like we h
 
 NOTE: Do not add a  main method to solution code.
  */
-package sesion05;
+package section05;
 
 public class BarkingDog {
 

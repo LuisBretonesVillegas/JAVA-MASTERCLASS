@@ -34,7 +34,7 @@ If the parameter kilometersPerHour is < 0 then print the text "Invalid Value".
 
 
  */
-package sesion05;
+package section05;
 
 public class SpeedConverter {
 
