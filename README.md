@@ -6,7 +6,7 @@ going deeper on what I already covered, learning what I never reached, and under
 
 ## Progress
 
-**0 / 27 sections completed**
+**5 / 27 sections completed**
 
 | Section | Topic                                                                           | Status |
 |---------|---------------------------------------------------------------------------------|--------|
