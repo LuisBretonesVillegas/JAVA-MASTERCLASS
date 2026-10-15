@@ -41,11 +41,21 @@ NOTE: Do not add a main method to the solution code.
 package section06;
 
 public class DiagonalStar {
-    public static void printSquareStar(int number){
-        if(number<5) System.out.println("Invalid Value");
-for(int i = 0; i<number;i++){
-    
-}
 
+    public static void printSquareStar(int number) {
+
+        if (number < 5) {
+            System.out.println("Invalid Value");
+            return;
+        }
+
+        for (int row = 1; row <= number; row++) {
+            for (int column = 1; column <= number; column++) {
+                if (row == 1 || row == number || column == 1 || column == number) System.out.print("*"); //Borders
+                else if (row == column || column == number - row + 1) System.out.print("*"); //Diagonals
+                else System.out.print(" ");
+            }
+            System.out.println();
+        }
     }
 }
