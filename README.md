@@ -6,7 +6,7 @@ going deeper on what I already covered, learning what I never reached, and under
 
 ## Progress
 
-**5 / 27 sections completed**
+**6 / 27 sections completed**
 
 | Section | Topic                                                                           | Status |
 |---------|---------------------------------------------------------------------------------|--------|
@@ -15,8 +15,8 @@ going deeper on what I already covered, learning what I never reached, and under
 | 3       | First Steps in Java Programming                                                 | ✅      |
 | 4       | Transitioning from JShell to IntelliJ IDEA: A Comprehensive IDE Guide           | ✅      |
 | 5       | Mastering Java Expressions, Statements, Code Blocks, And Method Overloading     | ✅      |
-| 6       | Mastering Conditional Logic, Loops, And Interactive Java Applications           | 🔄      |
-| 7       | Mastering Java OOP: Classes & Inheritance                                       | ⬜      |
+| 6       | Mastering Conditional Logic, Loops, And Interactive Java Applications           | ✅      |
+| 7       | Mastering Java OOP: Classes & Inheritance                                       | 🔄      |
 | 8       | Advanced OOP Techniques: Composition, Encapsulation, and Polymorphism in Action | ⬜      |
 | 9       | Advanced Arrays in Java: Single & Multi-Dimensional Techniques                  | ⬜      |
 | 10      | Mastering Lists, Iterators, and Autoboxing: ArrayList, LinkedList & Enums       | ⬜      |
