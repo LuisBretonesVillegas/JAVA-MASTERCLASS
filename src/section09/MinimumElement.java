@@ -38,9 +38,8 @@ public class MinimumElement {
     }
 
     private static int findMin(int[] array){
-        int minimumValue = 0;
+        int minimumValue = array[0];
         for(int i = 0; i < array.length; i++){
-            minimumValue = array[0];
             if(array[i] < minimumValue) minimumValue = array[i];
         }
 
