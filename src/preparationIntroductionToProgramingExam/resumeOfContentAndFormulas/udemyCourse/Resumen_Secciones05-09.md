@@ -18,7 +18,7 @@ que sirven para el examen de IP.
 | `EqualSumChecker` | operadores de comparación | `a + b == c` |
 | `TeenNumberChecker` | métodos auxiliares (`isTeen`) | `13 <= n && n <= 19` |
 | `AreaCalculator` | **sobrecarga de métodos** | círculo `π·r²`; rectángulo `x·y` |
-| `MinutesToYearsDaysCalculator` | división entera en cascada | `años = min / 525600`; `días = (min / 1440) % 365` |
+| `MinutesToYearsDaysCalculator` | división entera en cascada | `horas = min/60`, `días = horas/24`, `años = días/365`, `díasRestantes = días - años*365` (en tu código `remainingHours` no se usa y su fórmula `hour - day/24` está mal: sería `hour - day*24`) |
 | `IntEqualityPrinter` | validar parámetros negativos | — |
 | `PlayingCat` | rangos de temperatura según el verano | `25..35` (o `25..45` si es verano) |
 
@@ -47,7 +47,7 @@ que sirven para el examen de IP.
 | `LargestPrime` | factor primo mayor: dividir mientras `n % i == 0` |
 | `DiagonalStar` | **dibujar figuras** con dos bucles anidados (`i == j`, `j == n-i-1`, bordes) |
 | `InputCalculator` | `Scanner` + `hasNextInt()` para leer hasta una entrada no válida; media |
-| `PaintJob` | `Math.ceil(area / areaPorCubo)` |
+| `PaintJob` | **sobrecarga** de `getBucketCount` (3 versiones): `(int) Math.ceil(area / areaPorCubo) - cubosExtra` |
 
 **Plantilla de lectura validada (muy útil en IP)**
 ```java
@@ -101,7 +101,7 @@ c.startEngine();                // se ejecuta el método de Ford (enlace dinámi
 | `SortedArray` | `Arrays.copyOf`, `Arrays.sort`, invertir un array, imprimir con formato |
 | `MinimumElement` | leer N elementos y buscar el mínimo |
 
-> ⚠️ **Fallo en `MinimumElement.findMin`**: `minimumValue = array[0];` está *dentro* del bucle,
+> **Fallo en `MinimumElement.findMin`**: `minimumValue = array[0];` está *dentro* del bucle,
 > así que se reinicia en cada vuelta. Hay que inicializarlo **antes** del `for`:
 > ```java
 > int min = array[0];
@@ -122,7 +122,7 @@ c.startEngine();                // se ejecuta el método de Ford (enlace dinámi
 |---|---|
 | Menús `do-while` + `switch` | Parcial (aquí no hay menús) |
 | Arrays 1D y algoritmos (mezcla lineal, Fisher-Yates) | Básico |
-| **Matrices 2D** | ❌ No (ver `ipCollegeClass`) |
-| Clases, constructores, herencia | ✅ |
-| `toString`, `equals`, `compareTo` / `Comparable` | ❌ No (ver `ipCollegeClass/contenidosPOOExamen`) |
-| `split` / parsear cadenas, excepciones propias | ❌ No |
+| **Matrices 2D** | No (ver `ipCollegeClass`) |
+| Clases, constructores, herencia | Sí |
+| `toString`, `equals`, `compareTo` / `Comparable` | No (ver `ipCollegeClass/contenidosPOOExamen`) |
+| `split` / parsear cadenas, excepciones propias | No |

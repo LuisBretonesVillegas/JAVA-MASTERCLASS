@@ -37,7 +37,7 @@ for (int i = v.length - 1; i > 0; i--) {
     int t = v[i]; v[i] = v[j]; v[j] = t;
 }
 ```
-⚠️ Para mostrar "original" y "aleatorizado", **copiar antes** el array: `int[] copia = v.clone();`.
+**Ojo:** para mostrar "original" y "aleatorizado", **copiar antes** el array: `int[] copia = v.clone();`.
 
 ## Cortar la baraja (24/25 ord.): intercambiar los bloques [0,k) y [k,n)
 ```java

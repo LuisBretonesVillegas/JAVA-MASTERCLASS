@@ -5,12 +5,12 @@ y todavía no se ha dado en clase. Orden recomendado de estudio:
 
 | # | Archivo | Exámenes donde cayó | Prioridad |
 |---|---|---|---|
-| 1 | [01_Clase_toString_equals.md](01_Clase_toString_equals.md) | todos | 🔴 imprescindible |
-| 2 | [02_Comparable_compareTo.md](02_Comparable_compareTo.md) | todos | 🔴 imprescindible |
-| 3 | [03_Parseo_split.md](03_Parseo_split.md) | 23/24 ord y extra, 25/26 ord y extra | 🔴 imprescindible |
-| 4 | [04_Excepciones.md](04_Excepciones.md) | 25/26 ord y extra | 🟠 tendencia al alza |
-| 5 | [05_Herencia_Composicion_Contenedores.md](05_Herencia_Composicion_Contenedores.md) | 24/25 (herencia), 25/26 (composición) | 🟠 |
-| 6 | [06_Algoritmos_Arrays_Objetos.md](06_Algoritmos_Arrays_Objetos.md) | todos | 🔴 suele valer 2-2,5 p |
+| 1 | [01_Clase_toString_equals.md](01_Clase_toString_equals.md) | todos | Alta |
+| 2 | [02_Comparable_compareTo.md](02_Comparable_compareTo.md) | todos | Alta |
+| 3 | [03_Parseo_split.md](03_Parseo_split.md) | 23/24 ord y extra, 25/26 ord y extra | Alta |
+| 4 | [04_Excepciones.md](04_Excepciones.md) | 25/26 ord y extra | Media (tendencia al alza) |
+| 5 | [05_Herencia_Composicion_Contenedores.md](05_Herencia_Composicion_Contenedores.md) | 24/25 (herencia), 25/26 (composición) | Media |
+| 6 | [06_Algoritmos_Arrays_Objetos.md](06_Algoritmos_Arrays_Objetos.md) | todos | Alta (suele valer 2-2,5 p) |
 
 **Clases de ejemplo de años anteriores donde se ve todo esto en código:**
 - `IP/ip2026-estudiantes-main/.../tema05` (clases, herencia, excepciones) y `tema06` (búsqueda, ordenación genérica, `Fraccion`, `Complejo`).

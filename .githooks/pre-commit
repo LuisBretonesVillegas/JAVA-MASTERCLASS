@@ -1,0 +1,13 @@
+#!/bin/sh
+# Bloquea cualquier commit que incluya archivos PDF (exámenes, prácticas, libros),
+# incluso si se añadieron a la fuerza con `git add -f`.
+# Se activa una sola vez con:  git config core.hooksPath .githooks
+pdfs=$(git diff --cached --name-only --diff-filter=ACMR | grep -i '\.pdf$')
+if [ -n "$pdfs" ]; then
+  echo "Commit cancelado: hay PDFs preparados para el commit:"
+  echo "$pdfs" | sed 's/^/   - /'
+  echo ""
+  echo "Quitalos con:  git restore --staged <archivo>   (el archivo se queda en el disco)"
+  exit 1
+fi
+exit 0

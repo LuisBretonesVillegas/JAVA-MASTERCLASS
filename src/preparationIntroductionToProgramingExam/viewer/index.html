@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apuntes IP Java</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+/* Tokens de luisbretones.dev */
+:root{
+  --bg:#f5f0e8; --bg-card:#ede8df; --text:#111111; --text-2:#2a2a2a; --text-muted:#6b7280;
+  --accent:#1a5c00; --accent-line:rgba(26,92,0,.35); --accent-soft:rgba(26,92,0,.07);
+  --line:rgba(17,17,17,.09);
+  --serif:"Playfair Display",Georgia,serif; --sans:"DM Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --c-green:#1a5c00; --c-green-l:rgba(26,92,0,.4);
+  --c-blue:#3d7fc1;  --c-blue-l:#a3c4e8;
+  --c-orange:#b85c2a;--c-orange-l:#dda882;
+  --c-teal:#2f6f6a;  --c-teal-l:#9fc7c3;
+  --header:58px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+::selection{background:rgba(26,92,0,.18)}
+.eyebrow{font:600 10.4px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+.kicker{font:600 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1,h2,h3,.serif{font-variant-numeric:lining-nums}
+
+/* ---------- Cabecera ---------- */
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);height:var(--header)}
+.bar{max-width:1320px;height:100%;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:32px}
+.brand{text-decoration:none;line-height:1.15;flex:none}
+.brand b{display:block;font-weight:500;font-size:15px}
+.brand small{font:500 9.9px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tabs{display:flex;gap:24px;height:100%}
+.tabs a{display:flex;align-items:center;font-size:13.6px;font-weight:500;color:var(--text-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs a:hover{color:var(--text)}
+.tabs a.on{color:var(--accent);border-bottom-color:var(--accent)}
+#search{margin-left:auto;width:240px;padding:7px 12px;border:1px solid var(--line);border-radius:2px;background:transparent;color:var(--text);font:14px var(--sans)}
+#search:focus{outline:none;border-color:var(--accent-line)}
+#menuBtn{display:none;background:none;border:1px solid var(--accent-line);color:var(--accent);border-radius:2px;padding:5px 10px;font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+
+/* ---------- Contenedores ---------- */
+.page{max-width:1040px;margin:0 auto;padding:56px 24px 100px}
+.layout{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr) 210px;gap:48px;padding:0 24px}
+.side{position:sticky;top:var(--header);align-self:start;max-height:calc(100vh - var(--header));overflow-y:auto;padding:36px 0 40px}
+.content{padding:40px 0 100px;min-width:0}
+.toc{position:sticky;top:var(--header);align-self:start;max-height:calc(100vh - var(--header));overflow-y:auto;padding:40px 0}
+
+/* lateral de la sección */
+.side .area{font:700 22px var(--serif);text-decoration:none;display:block;margin:4px 0 18px}
+.side .sub{margin:18px 0 6px}
+.side a.it{display:block;padding:6px 10px;margin-left:-12px;border-left:2px solid transparent;font-size:14px;line-height:1.4;color:var(--text-muted);text-decoration:none}
+.side a.it:hover{color:var(--text)}
+.side a.it.on{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:500}
+
+/* índice derecho */
+.toc .eyebrow{margin-bottom:10px;display:block}
+.toc a{display:block;font-size:13px;line-height:1.4;color:var(--text-muted);text-decoration:none;padding:4px 0 4px 12px;border-left:1px solid var(--line)}
+.toc a:hover{color:var(--text)}
+.toc a.on{color:var(--accent);border-left:2px solid var(--accent);padding-left:11px}
+
+/* ---------- Documento ---------- */
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:-6px 0 34px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.meta .path{font:500 10.5px var(--mono);color:var(--text-muted);word-break:break-all}
+.tag{font:500 9.9px var(--mono);padding:2px 7px;border-radius:2px;color:var(--c);border:1px solid var(--cl);white-space:nowrap}
+.md{max-width:760px}
+.md h1{font:800 clamp(32px,4.6vw,44px)/1.12 var(--serif);letter-spacing:-.02em;margin:10px 0 22px}
+.md h2{font:700 25px/1.25 var(--serif);margin:2.3em 0 .7em;scroll-margin-top:calc(var(--header) + 20px)}
+.md h3{font:600 17px var(--sans);margin:1.7em 0 .5em;scroll-margin-top:calc(var(--header) + 20px)}
+.md p,.md li{color:var(--text-2)}
+.md a{color:var(--accent);text-underline-offset:3px}
+.md strong{font-weight:600;color:var(--text)}
+.md hr{border:0;border-top:1px solid var(--line);margin:2.6em 0}
+.md table{border-collapse:collapse;width:100%;margin:16px 0 24px;font-size:14px;display:block;overflow-x:auto;background:rgba(255,255,255,.35);border:1px solid var(--line)}
+.md th{font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);text-align:left;background:var(--bg-card);padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.md td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.md tr:last-child td{border-bottom:0}
+.md code{font:500 .86em var(--mono);background:var(--bg-card);padding:1px 5px;border-radius:2px;overflow-wrap:anywhere}
+.md pre code{overflow-wrap:normal}
+.md pre{background:var(--bg-card);border:1px solid var(--line);padding:16px 18px;border-radius:2px;overflow-x:auto;font-size:13px;line-height:1.6}
+.md pre code{background:none;padding:0;font-size:inherit}
+.md pre code.hljs{background:transparent;padding:0}
+.md blockquote{margin:18px 0;padding:12px 18px;border-left:2px solid var(--accent);background:var(--accent-soft)}
+.md blockquote p{margin:.3em 0}
+.md mark{background:rgba(26,92,0,.2);color:inherit;padding:0 1px;border-radius:2px}
+.statement{white-space:pre-wrap;background:var(--bg-card);border:1px solid var(--line);border-left:2px solid var(--accent);padding:18px 20px;border-radius:2px;font-size:14.5px;color:var(--text-2)}
+.filehead{font:500 11px var(--mono);letter-spacing:.06em;color:var(--accent);margin:28px 0 8px}
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:760px;margin-top:64px;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:14px 16px;background:rgba(255,255,255,.28)}
+.pager a:hover{border-color:var(--accent-line)}
+.pager a.next{text-align:right;grid-column:2}
+.pager b{display:block;font:700 16px/1.3 var(--serif);margin-top:4px}
+
+/* ---------- Portada y secciones ---------- */
+.hero h1{font:800 clamp(42px,6.5vw,62px)/1.05 var(--serif);letter-spacing:-.02em;margin:10px 0 12px}
+.hero .sub{color:var(--text-muted);font-size:17px;margin:0 0 6px}
+.hero p{color:#3a3a3a;max-width:580px}
+.block{margin-top:56px;padding-top:30px;border-top:1px solid var(--line)}
+.steps{counter-reset:s;margin-top:14px;border:1px solid var(--line);border-radius:3px;background:rgba(255,255,255,.28)}
+.steps a{counter-increment:s;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:6px 14px;padding:16px 20px;text-decoration:none;border-bottom:1px solid var(--line)}
+.steps a:last-child{border-bottom:0}
+.steps a::before{content:counter(s,decimal-leading-zero);font:600 12px var(--mono);color:var(--accent)}
+.steps a:hover{background:rgba(255,255,255,.45)}
+.steps b{font:700 18px/1.3 var(--serif);display:block}
+.steps small{color:var(--text-muted);font-size:14px}
+.go{font:600 11.5px var(--mono);color:var(--accent);white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:14px}
+.card{display:flex;flex-direction:column;text-decoration:none;background:rgba(255,255,255,.28);border:1px solid var(--line);border-radius:3px;padding:20px}
+.card:hover{border-color:var(--accent-line);background:rgba(255,255,255,.5)}
+.card h3{font:700 22px/1.25 var(--serif);margin:6px 0 8px}
+.card p{margin:0 0 16px;color:var(--text-muted);font-size:14.5px;flex:1}
+.list{margin-top:14px;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:52px 1fr auto;gap:4px 16px;align-items:baseline;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none}
+.row:hover{background:rgba(255,255,255,.35)}
+.row .n{font:600 11px var(--mono);color:var(--accent)}
+.row b{font:700 18px/1.3 var(--serif)}
+.row p{grid-column:2;margin:2px 0 0;color:var(--text-muted);font-size:14.5px}
+.row .tags{grid-column:2;display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 6px}
+.chip{font:400 12.5px var(--sans);padding:4px 10px;border-radius:2px;background:var(--bg);cursor:pointer;color:var(--c);border:1px solid var(--cl)}
+.chip.on{background:var(--c);color:var(--bg);border-color:var(--c)}
+.intro{color:var(--text-muted);font-size:17px;max-width:640px;margin:0}
+.title-xl{font:800 clamp(36px,5vw,50px)/1.1 var(--serif);letter-spacing:-.02em;margin:10px 0 12px}
+.empty{color:var(--text-muted)}
+.snippet{grid-column:2;color:var(--text-muted);font-size:14px;margin-top:4px}
+.snippet mark{background:rgba(26,92,0,.2);color:var(--text)}
+
+@media (max-width:1180px){ .layout{grid-template-columns:240px minmax(0,1fr)} .toc{display:none} }
+@media (max-width:980px){ .tabs{gap:16px} #search{width:170px} }
+@media (max-width:820px){
+  .tabs{display:none}
+  #menuBtn{display:block}
+  .bar{gap:12px;padding:0 16px}
+  #search{flex:1;width:auto;min-width:0}
+  .layout{grid-template-columns:1fr;padding:0 16px;gap:0}
+  .side{display:none}
+  .page{padding:36px 16px 80px}
+  .row{grid-template-columns:36px 1fr}
+  .row .go{display:none}
+  .steps a{grid-template-columns:36px 1fr}
+  .steps .go{display:none}
+  .pager{grid-template-columns:1fr}
+  .pager a.next{grid-column:1}
+}
+/* menú móvil en portada/secciones: lista de secciones */
+.mnav{display:none}
+@media (max-width:820px){ body.menu{overflow:hidden} body.menu .mnav{display:block;position:fixed;inset:var(--header) 0 0 0;z-index:9;background:var(--bg);padding:20px 20px 60px;overflow-y:auto}
+  .mnav .tabsm a{display:block;font:700 24px var(--serif);text-decoration:none;padding:10px 0;border-bottom:1px solid var(--line)}
+  .mnav .tabsm a.on{color:var(--accent)}
+  .mnav .sidem{margin-top:26px}
+  .mnav .sidem .area,.mnav .sidem>.eyebrow:first-child{display:none}
+  .mnav .sidem .sub{margin:18px 0 6px}
+  .mnav .sidem a.it{display:block;padding:7px 10px;border-left:2px solid transparent;font-size:15px;color:var(--text-muted);text-decoration:none}
+  .mnav .sidem a.it.on{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)} }
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <button id="menuBtn" aria-label="Menú">Menú</button>
+  <a class="brand" href="#"><b>Luis Bretones</b><small>Apuntes · IP Java</small></a>
+  <nav class="tabs" id="tabs"></nav>
+  <input id="search" type="search" placeholder="Buscar en los apuntes…" autocomplete="off">
+</div></header>
+<div class="mnav" id="mnav"></div>
+<div id="app"></div>
+
+<script>
+/* ================= Modelo ================= */
+const PREP = "preparationIntroductionToProgramingExam/";
+const AREAS = [
+  {id:"examen",    name:"Examen",           desc:"El patrón de los exámenes de IP y las fichas de POO que caen y todavía no se han dado en clase."},
+  {id:"resumenes", name:"Resúmenes",        desc:"Contenidos y fórmulas de IP2027 (sesiones 01-05) y del curso de Udemy (secciones 05-09)."},
+  {id:"udemy",     name:"Ejercicios Udemy", desc:"Enunciado y código de cada ejercicio de las secciones 05 a 09, filtrables por tipo."},
+  {id:"notas",     name:"Notas",            desc:"Ejercicios recomendados del libro de Liang, plan de estudio, errores típicos y simulacro."},
+];
+const TYPES = {
+  cond:{label:"Condicionales y métodos", c:"--c-blue"},
+  loop:{label:"Bucles",                  c:"--c-teal"},
+  poo: {label:"POO",                     c:"--c-green"},
+  arr: {label:"Arrays",                  c:"--c-orange"},
+};
+const cv = t => `--c:var(${TYPES[t].c});--cl:var(${TYPES[t].c}-l)`;
+const SECTION = {"05":["Condicionales y métodos","cond"],"06":["Bucles y números","loop"],"07":["POO I · clases y herencia","poo"],"08":["POO II · composición y polimorfismo","poo"],"09":["Arrays","arr"]};
+
+function place(path){
+  const name = path.split("/").pop(); let m;
+  if (path.startsWith(PREP)){
+    const rel = path.slice(PREP.length);
+    if (/ipCollegeClass\/Analisis/.test(rel)) return {area:"examen", sub:"Análisis", order:0};
+    if (rel.includes("/contenidosPOOExamen/")) return {area:"examen", sub:"Fichas de POO", order: name==="README.md" ? 1 : 2 + parseInt(name)||9};
+    if (/ipCollegeClass\//.test(rel)) return {area:"resumenes", sub:"IP2027", order:0};
+    if (/udemyCourse\//.test(rel)) return {area:"resumenes", sub:"Udemy", order:1};
+    if (rel.startsWith("Notes/")) return {area:"notas", sub:"Estudio", order:/Seleccion/.test(name)?0:1};
+    return {area:"resumenes", sub:"Otros", order:5};
+  }
+  if ((m = path.match(/^section(\d+)\//))){
+    const s = m[1].padStart(2,"0"), sec = SECTION[s] || ["",null];
+    return {area:"udemy", sub:`Sección ${s} · ${sec[0]}`, order:parseInt(s), type:sec[1]};
+  }
+  return null;
+}
+
+let files=[], docs=[], cache=new Map();
+const byKey = k => docs.find(d=>d.key===k);
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const isStatement = p => /statement/i.test(p.split("/").pop());
+const plain = s => s.replace(/`([^`]*)`/g,"$1").replace(/\*\*?([^*]+)\*\*?/g,"$1").replace(/\[([^\]]+)\]\([^)]*\)/g,"$1").trim();
+
+function build(){
+  const map = new Map();
+  for (const f of files){
+    const pl = place(f.path); if (!pl) continue;
+    const ex = f.path.match(/^(section\d+\/exercise\d+)\//);
+    const key = ex ? ex[1] : f.path;
+    if (!map.has(key)) map.set(key, {key, ...pl, files:[], folder:!!ex});
+    map.get(key).files.push(f);
+  }
+  docs = [...map.values()];
+  for (const d of docs){
+    d.files.sort((a,b)=> isStatement(b.path)-isStatement(a.path) || a.path.localeCompare(b.path));
+    d.mtime = Math.max(...d.files.map(f=>f.mtime));
+    const last = d.key.split("/").pop();
+    d.title = d.folder ? "Ejercicio " + last.replace("exercise","")
+      : last.replace(/\.(md|java)$/,"").replace(/([A-Za-z])(\d)/g,"$1 $2").replace(/_/g," ").replace(/([a-z])([A-Z])/g,"$1 $2");
+    d.desc = "";
+    const t = cache.get(d.files[0].path)?.text;
+    if (t){
+      if (d.key.endsWith(".md")){
+        const h = t.match(/^#\s+(.+)$/m); if (h) d.title = plain(h[1]);
+        const para = t.split(/\n\s*\n/).map(x=>x.trim()).find(x=>x && !/^[#|`>\-]/.test(x) && !/^\d+\./.test(x));
+        if (para) d.desc = plain(para.replace(/\n/g," "));
+      } else {
+        const st = isStatement(d.files[0].path) ? t : (t.match(/\/\*([\s\S]*?)\*\//)||[])[1] || "";
+        d.desc = st.replace(/^\s*\* ?/gm,"").replace(/\s+/g," ").trim();
+      }
+      if (d.desc.length > 170) d.desc = d.desc.slice(0,167).replace(/\s\S*$/,"") + "…";
+    }
+  }
+  docs.sort((a,b)=> AREAS.findIndex(x=>x.id===a.area)-AREAS.findIndex(x=>x.id===b.area) || a.order-b.order || a.key.localeCompare(b.key,undefined,{numeric:true}));
+}
+const inArea = id => docs.filter(d=>d.area===id);
+function groupBy(list){ const g=new Map(); for (const d of list){ if(!g.has(d.sub)) g.set(d.sub,[]); g.get(d.sub).push(d); } return g; }
+
+async function getText(f){
+  const c = cache.get(f.path); if (c && c.mtime === f.mtime) return c.text;
+  const r = await fetch("/" + f.path.split("/").map(encodeURIComponent).join("/") + "?t=" + f.mtime);
+  const text = await r.text(); cache.set(f.path,{mtime:f.mtime,text}); return text;
+}
+
+/* ================= Rutas ================= */
+// ""            portada
+// #s/<area>     sección
+// #/<ruta>?q=   documento (q = término a resaltar)
+// #buscar/<q>   resultados
+function parse(){
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h.startsWith("/")){ const [p,q] = h.slice(1).split("?q="); return {view:"doc", key:p, q:q||""}; }
+  if (h.startsWith("s/")) return {view:"area", id:h.slice(2)};
+  if (h.startsWith("buscar/")) return {view:"search", q:h.slice(7)};
+  return {view:"home"};
+}
+const app = document.getElementById("app");
+let typeFilter = new Set();
+
+function renderTabs(r){
+  const cur = r.view==="area" ? r.id : r.view==="doc" ? byKey(r.key)?.area : null;
+  const html = `<a href="#" class="${r.view==="home"?"on":""}">Inicio</a>` + AREAS.map(a=>`<a href="#s/${a.id}" class="${cur===a.id?"on":""}">${a.name}</a>`).join("");
+  document.getElementById("tabs").innerHTML = html;
+}
+
+async function render(keepScroll){
+  const r = parse(), y = scrollY;
+  document.body.classList.remove("menu");
+  renderTabs(r);
+  if (r.view==="doc" && byKey(r.key)) await renderDoc(byKey(r.key), r.q);
+  else if (r.view==="area" && AREAS.some(a=>a.id===r.id)) renderArea(r.id);
+  else if (r.view==="search") renderSearch(r.q);
+  else renderHome();
+  if (keepScroll) scrollTo(0,y);
+  else if (!(r.view==="doc" && r.q)) scrollTo(0,0);
+}
+
+/* ---------- Portada ---------- */
+function renderHome(){
+  const find = re => docs.find(d=>re.test(d.key));
+  const steps = [
+    [find(/Analisis_Examenes/), "Qué cae siempre y cómo se reparten los 10 puntos."],
+    [find(/contenidosPOOExamen\/README/), "Las seis fichas de POO, en orden de estudio."],
+    [find(/Resumen_IP2027/), "Arrays, matrices y el esqueleto de menú de clase."],
+    [find(/Seleccion_Ejercicios/), "Los ejercicios del libro que más se parecen al examen."],
+    [find(/Contenidos_Extra/), "Plan por fases, errores típicos y un simulacro de 2 horas."],
+  ].filter(s=>s[0]);
+  app.innerHTML = `<div class="page">
+    <div class="hero">
+      <div class="kicker">Introducción a la Programación // UAL 2026-27</div>
+      <h1>Apuntes IP</h1>
+      <p class="sub">Arrays, matrices y POO en Java</p>
+      <p>Todo lo que escribo en el IDE, organizado en cuatro secciones. Se actualiza solo cada vez que guardo un archivo.</p>
+    </div>
+    <div class="block"><div class="eyebrow">Por dónde // empezar</div>
+      <div class="steps">${steps.map(([d,why])=>`<a href="#/${d.key}"><div><b>${esc(d.title)}</b><small>${why}</small></div><span class="go">Leer →</span></a>`).join("")}</div>
+    </div>
+    <div class="block"><div class="eyebrow">Secciones</div>
+      <div class="cards">${AREAS.map(a=>`<a class="card" href="#s/${a.id}">
+        <div class="kicker">${inArea(a.id).length} ${a.id==="udemy"?"ejercicios":"apuntes"}</div>
+        <h3>${a.name}</h3><p>${a.desc}</p><span class="go">Abrir →</span></a>`).join("")}</div>
+    </div></div>`;
+}
+
+/* ---------- Sección ---------- */
+function renderArea(id){
+  const a = AREAS.find(x=>x.id===id);
+  let list = inArea(id);
+  let chips = "";
+  if (id==="udemy"){
+    chips = `<div class="chips">${Object.entries(TYPES).map(([k,t])=>`<button class="chip ${typeFilter.has(k)?"on":""}" data-t="${k}" style="${cv(k)}">${t.label}</button>`).join("")}</div>`;
+    if (typeFilter.size) list = list.filter(d=>typeFilter.has(d.type));
+  }
+  let html = `<div class="page"><div class="kicker">Sección</div><h1 class="title-xl">${a.name}</h1><p class="intro">${a.desc}</p>${chips}`;
+  let n = 0;
+  for (const [sub, ds] of groupBy(list)){
+    html += `<div class="block"><div class="eyebrow">${esc(sub)}</div><div class="list">` + ds.map(d=>`<a class="row" href="#/${d.key}">
+      <span class="n">${String(++n).padStart(2,"0")}</span><b>${esc(d.title)}</b><span class="go">Leer →</span>
+      ${d.desc?`<p>${esc(d.desc)}</p>`:""}${d.type?`<span class="tags"><span class="tag" style="${cv(d.type)}">${TYPES[d.type].label.toLowerCase()}</span>${d.files.length>1?`<span class="tag" style="--c:var(--text-muted);--cl:var(--line)">${d.files.length} archivos</span>`:""}</span>`:""}
+    </a>`).join("") + `</div></div>`;
+  }
+  if (!list.length) html += `<p class="empty" style="margin-top:30px">No hay ejercicios de ese tipo.</p>`;
+  app.innerHTML = html + `</div>`;
+  app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{ const k=b.dataset.t; typeFilter.has(k)?typeFilter.delete(k):typeFilter.add(k); renderArea(id); });
+}
+
+/* ---------- Búsqueda ---------- */
+function renderSearch(q){
+  const s = document.getElementById("search"); if (document.activeElement!==s) s.value = q;
+  const ql = q.toLowerCase(), re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi");
+  const hits = [];
+  if (q) for (const d of docs){
+    const text = d.files.map(f=>cache.get(f.path)?.text||"").join("\n");
+    const inTitle = d.title.toLowerCase().includes(ql), i = text.toLowerCase().indexOf(ql);
+    if (!inTitle && i<0) continue;
+    const count = (text.match(re)||[]).length;
+    let snip = "";
+    if (i>=0){ const a=Math.max(0,i-70); snip=(a?"…":"")+text.slice(a,i+q.length+90).replace(/\s+/g," ")+"…"; }
+    hits.push({d,count:count+(inTitle?100:0),snip});
+  }
+  hits.sort((a,b)=>b.count-a.count);
+  app.innerHTML = `<div class="page"><div class="kicker">Búsqueda</div><h1 class="title-xl">«${esc(q)}»</h1>
+    <p class="intro">${hits.length} ${hits.length===1?"apunte":"apuntes"} con coincidencias.</p>
+    <div class="list" style="margin-top:28px">${hits.map((h,i)=>`<a class="row" href="#/${h.d.key}?q=${encodeURIComponent(q)}">
+      <span class="n">${String(i+1).padStart(2,"0")}</span><b>${esc(h.d.title)}</b><span class="go">${AREAS.find(a=>a.id===h.d.area).name} →</span>
+      ${h.snip?`<div class="snippet">${esc(h.snip).replace(new RegExp(re.source,"gi"),m=>`<mark>${m}</mark>`)}</div>`:""}</a>`).join("")}</div></div>`;
+}
+
+/* ---------- Documento ---------- */
+async function renderDoc(d, q){
+  let body = "";
+  for (const f of d.files){
+    const text = await getText(f), name = f.path.split("/").pop();
+    if (name.endsWith(".md")) body += marked.parse(text);
+    else if (isStatement(f.path)) body += `<h2>Enunciado</h2><div class="statement">${esc(text.trim())}</div>`;
+    else {
+      const m = text.match(/^\s*\/\*([\s\S]*?)\*\/\s*/), single = d.files.length === 1;
+      if (m && single) body += `<h2>Enunciado</h2><div class="statement">${esc(m[1].replace(/^\s*\* ?/gm,"").trim())}</div>`;
+      body += `${single?"<h2>Solución</h2>":""}<div class="filehead">${esc(name)}</div><pre><code class="language-java">${esc(m && single ? text.slice(m[0].length) : text)}</code></pre>`;
+    }
+  }
+  if (!d.key.endsWith(".md")) body = `<h1>${esc(d.title)}</h1>` + body;
+
+  const area = AREAS.find(a=>a.id===d.area), list = inArea(d.area), idx = list.indexOf(d);
+  let side = `<div class="eyebrow">Sección</div><a class="area" href="#s/${area.id}">${area.name}</a>`;
+  for (const [sub, ds] of groupBy(list)){
+    const collapse = d.area==="udemy" && sub!==d.sub;      // en Udemy solo se despliega la sección actual
+    side += collapse
+      ? `<a class="eyebrow sub" style="display:block;text-decoration:none" href="#/${ds[0].key}">+ ${esc(sub)} (${ds.length})</a>`
+      : `<div class="eyebrow sub">${esc(sub)}</div>` + ds.map(x=>`<a class="it ${x===d?"on":""}" href="#/${x.key}">${esc(x.title)}</a>`).join("");
+  }
+  const prev = list[idx-1], next = list[idx+1];
+  const pager = `<div class="pager">${prev?`<a href="#/${prev.key}"><span class="eyebrow">← Anterior</span><b>${esc(prev.title)}</b></a>`:""}${next?`<a class="next" href="#/${next.key}"><span class="eyebrow">Siguiente →</span><b>${esc(next.title)}</b></a>`:""}</div>`;
+
+  app.innerHTML = `<div class="layout">
+    <aside class="side">${side}</aside>
+    <article class="content"><div class="kicker">${area.name} // ${esc(d.sub)}</div><div class="md">${body}</div>${pager}</article>
+    <aside class="toc" id="toc"></aside></div>`;
+  const md = app.querySelector(".md");
+
+  const h1 = md.querySelector("h1");
+  const tags = d.type ? `<span class="tag" style="${cv(d.type)}">${TYPES[d.type].label.toLowerCase()}</span>` : "";
+  h1?.insertAdjacentHTML("afterend", `<div class="meta">${tags}<span class="path">src/${esc(d.key)} · editado ${new Date(d.mtime/1e6).toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"})}</span></div>`);
+  md.querySelectorAll("pre code").forEach(el=>hljs.highlightElement(el));
+
+  // enlaces relativos entre apuntes y anclas internas
+  const slug = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9\s-]/g,"").trim().replace(/\s+/g,"-");
+  const hs = [...md.querySelectorAll("h2,h3")]; hs.forEach(h=>{ if(!h.id) h.id = slug(h.textContent); });
+  const jump = id => md.querySelector("#"+CSS.escape(id))?.scrollIntoView({behavior:"smooth",block:"start"});
+  md.querySelectorAll("a[href]").forEach(a=>{
+    const href = a.getAttribute("href");
+    if (/^https?:/.test(href)) { a.target = "_blank"; return; }
+    if (href.startsWith("#")) { a.onclick = e=>{ e.preventDefault(); jump(href.slice(1)); }; return; }
+    const base = d.key.split("/").slice(0,-1);
+    for (const part of href.split("#")[0].split("/")) part===".."?base.pop():part!=="."&&base.push(part);
+    const target = decodeURIComponent(base.join("/"));
+    if (byKey(target)) a.setAttribute("href","#/"+target);
+  });
+
+  // índice derecho con seguimiento de la sección visible
+  const h2s = hs.filter(h=>h.tagName==="H2");
+  const toc = document.getElementById("toc");
+  if (h2s.length >= 2){
+    toc.innerHTML = `<span class="eyebrow">En esta página</span>` + h2s.map(h=>`<a href="#${h.id}" data-id="${h.id}">${esc(h.textContent)}</a>`).join("");
+    toc.querySelectorAll("a").forEach(a=>a.onclick=e=>{ e.preventDefault(); jump(a.dataset.id); });
+    const obs = new IntersectionObserver(es=>{
+      for (const e of es) if (e.isIntersecting){
+        toc.querySelectorAll("a").forEach(a=>a.classList.toggle("on", a.dataset.id===e.target.id));
+      }
+    }, {rootMargin:"-70px 0px -70% 0px"});
+    h2s.forEach(h=>obs.observe(h));
+  }
+
+  // resaltar término de búsqueda
+  if (q){
+    const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"), t = new RegExp(re.source,"i");
+    const w = document.createTreeWalker(md, NodeFilter.SHOW_TEXT), nodes=[];
+    while (w.nextNode()) if (t.test(w.currentNode.nodeValue)) nodes.push(w.currentNode);
+    for (const n of nodes){ const s=document.createElement("span"); s.innerHTML=esc(n.nodeValue).replace(re,m=>`<mark>${m}</mark>`); n.replaceWith(s); }
+    md.querySelector("mark")?.scrollIntoView({block:"center"});
+  }
+}
+
+/* ================= Eventos y recarga automática ================= */
+const search = document.getElementById("search");
+let st;
+search.addEventListener("input", ()=>{
+  clearTimeout(st);
+  st = setTimeout(()=>{ const q = search.value.trim(); if (q) location.hash = "#buscar/" + encodeURIComponent(q); else if (parse().view==="search") location.hash = ""; }, 250);
+});
+document.getElementById("menuBtn").onclick = ()=>{
+  const side = app.querySelector(".side");
+  document.getElementById("mnav").innerHTML = `<div class="tabsm">${document.getElementById("tabs").innerHTML}</div>` + (side ? `<div class="sidem">${side.innerHTML}</div>` : "");
+  document.getElementById("mnav").querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>document.body.classList.remove("menu")));
+  document.body.classList.toggle("menu");
+};
+window.addEventListener("hashchange", ()=>render(false));
+marked.setOptions({gfm:true});
+
+let sig = "";
+async function poll(){
+  try{
+    const first = !sig;
+    const list = await (await fetch(first ? "/api/tree?full=1" : "/api/tree")).json();
+    for (const f of list) if (f.text !== undefined){ cache.set(f.path,{mtime:f.mtime,text:f.text}); delete f.text; }
+    const s = list.map(f=>f.path+":"+f.mtime).join("|");
+    if (s !== sig){
+      files = list;
+      await Promise.all(files.map(getText));   // títulos, descripciones y búsqueda
+      build();
+      await render(!first);
+      sig = s;                                 // solo se marca como visto si se ha pintado bien
+    }
+  }catch(e){ console.warn("Visor:", e); }      // servidor parado o error: se reintenta
+  setTimeout(poll, 1200);
+}
+poll();
+</script>
+</body>
+</html>

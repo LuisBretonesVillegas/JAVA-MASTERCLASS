@@ -77,4 +77,4 @@ for (int i = 4; i < t.length; i += 3) {             // avanzar de 3 en 3
 }
 return a;
 ```
-💡 Truco: **dibujar los índices** del array resultante (`t[0]=ALBUM, t[1]=título…`) antes de programar.
+**Truco:** **dibujar los índices** del array resultante (`t[0]=ALBUM, t[1]=título…`) antes de programar.

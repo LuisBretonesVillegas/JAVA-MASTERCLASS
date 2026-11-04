@@ -47,13 +47,13 @@ Lo que **cae siempre**:
 | Herencia (`CartaEspañola extends Carta`, `BarajaEspañola extends Baraja`) | 2/6 |
 | Clase `final` con constantes `static final String[]` (FuenteDeDatos, PALOS_VALIDOS) | 3/6 |
 
-### 🔑 El patrón más importante
+### El patrón más importante
 **El ejercicio 2 del examen es casi igual que la práctica de la sesión 10 de ese curso:**
 - Curso 24/25: la sesión 10 fue `Baraja`, `Carta`, `CartaEspañola`, `CartaFrancesa`, `BarajasApp` → **examen de barajas**.
 - Curso 25/26: la sesión 10 fue `Cancion`, `ListaDeReproduccion`, `FuenteDeDatos`, `MultimediaParser`, `ParseException` → **examen de canciones/álbumes**.
 
 Igual con el ejercicio 1, que sale de las sesiones 04-06 (`MezclaLineal`, `Matrices`, `Estadistica`).
-👉 **Cuando la sesión 10 de IP2027 esté publicada, esa es la práctica que hay que dominar.**
+**Cuando la sesión 10 de IP2027 esté publicada, esa es la práctica que hay que dominar.**
 
 ## 4. Predicción para la convocatoria 26/27
 - Ej. 1: menú + lectura validada + un algoritmo de array/matriz no repetido (búsqueda binaria,

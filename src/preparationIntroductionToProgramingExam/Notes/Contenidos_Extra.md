@@ -18,7 +18,7 @@ Complementa:
 | 4 | Clase modelo + `toString`/`equals`/`compareTo` | `contenidosPOOExamen/01-02`, libro caps. 9, 11 y 13 |
 | 5 | Parser con `split` + excepción propia + contenedor + inserción | `contenidosPOOExamen/03-06`, libro cap. 12 |
 | 6 | Exámenes cronometrados (2 h) en papel, del más antiguo al más reciente | `../practiceExams/` |
-| 7 | Rehacer la práctica de la **sesión 10 de IP2027** cuando salga | 🔑 la más parecida al examen |
+| 7 | Rehacer la práctica de la **sesión 10 de IP2027** cuando salga | la más parecida al examen |
 
 ## 2. Errores típicos que restan puntos
 - Inicializar el máximo o el mínimo a `0` en vez de a `v[0]` (te pasa en `section09/MinimumElement`).

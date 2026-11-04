@@ -63,4 +63,4 @@ public static void ordenacionInsercion(Comparable[] v) {
     }
 }
 ```
-⚠️ Si el array tiene huecos `null` (array + contador) hay que recorrer solo hasta `numElementos`, no hasta `length`.
+**Ojo:** si el array tiene huecos `null` (array + contador) hay que recorrer solo hasta `numElementos`, no hasta `length`.

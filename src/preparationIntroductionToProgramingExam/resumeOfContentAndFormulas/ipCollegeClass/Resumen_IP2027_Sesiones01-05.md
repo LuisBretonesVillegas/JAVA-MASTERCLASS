@@ -34,7 +34,7 @@ Origen: `C:\Users\lbv\IdeaProjects\IP2027\BretonesVillegasLuisIP2027\src\main\ja
 | `FibonacciTerminoN`, `FibonacciHastaLimite` | `a, b → b, a+b` |
 | `Primos` | primo si no tiene divisores en `2..√n` |
 
-## Sesión 04: arrays unidimensionales ⭐ (base del ejercicio 1 del examen)
+## Sesión 04: arrays unidimensionales (base del ejercicio 1 del examen)
 | Programa | Qué practica |
 |---|---|
 | `ArrayUnidimensional` | menú; leer **validando el orden ascendente**; invertir; mayor y menor |
@@ -49,7 +49,7 @@ desviación = √varianza
 moda      = valor con más repeticiones (array de contadores o doble bucle)
 ```
 
-## Sesión 05: arrays bidimensionales (matrices) ⭐
+## Sesión 05: arrays bidimensionales (matrices)
 | Programa | Qué practica |
 |---|---|
 | `Matrices` | producto por escalar, suma, **multiplicación** (A es N×M, B es M×P) |
