@@ -6,7 +6,7 @@ going deeper on what I already covered, learning what I never reached, and under
 
 ## Progress
 
-**8 / 27 sections completed**
+**9 / 27 sections completed**
 
 | Section | Topic                                                                           | Status |
 |---------|---------------------------------------------------------------------------------|--------|
@@ -18,8 +18,8 @@ going deeper on what I already covered, learning what I never reached, and under
 | 6       | Mastering Conditional Logic, Loops, And Interactive Java Applications           | ✅      |
 | 7       | Mastering Java OOP: Classes & Inheritance                                       | ✅      |
 | 8       | Advanced OOP Techniques: Composition, Encapsulation, and Polymorphism in Action | ✅      |
-| 9       | Advanced Arrays in Java: Single & Multi-Dimensional Techniques                  | 🔄      |
-| 10      | Mastering Lists, Iterators, and Autoboxing: ArrayList, LinkedList & Enums       | ⬜      |
+| 9       | Advanced Arrays in Java: Single & Multi-Dimensional Techniques                  | ✅      |
+| 10      | Mastering Lists, Iterators, and Autoboxing: ArrayList, LinkedList & Enums       | 🔄      |
 | 11      | Mastering Abstraction & Interfaces: Expand Polymorphism & Java Hierarchies      | ⬜      |
 | 12      | Deep Dive into Java Generics: Bounds, Comparators & Advanced Techniques         | ⬜      |
 | 13      | Exploring Nested Classes, Local Types & Anonymous Classes                       | ⬜      |
