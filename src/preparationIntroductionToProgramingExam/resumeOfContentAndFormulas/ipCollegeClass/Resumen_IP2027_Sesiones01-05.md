@@ -1,6 +1,6 @@
 # IP 2026/27: resumen de las sesiones 01-05 (proyecto `IP2027`)
 
-Origen: `C:\Users\lbv\IdeaProjects\IP2027\BretonesVillegasLuisIP2027\src\main\java\org\ip\sesionXX`
+Origen: proyecto `IP2027`, carpeta `src/main/java/org/ip/sesionXX`
 (cada ejercicio está también en Python en `src/main/python`).
 
 ---

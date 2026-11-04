@@ -14,7 +14,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]          # .../JAVA-UDEMY/src
 VIEWER = "/preparationIntroductionToProgramingExam/viewer/"
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8765
 SKIP_DIRS = {"viewer", "out", "target", ".idea"}   # los PDF nunca se sirven: solo .md/.java
 
 
@@ -82,6 +81,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8765
     with http.server.ThreadingHTTPServer(("127.0.0.1", PORT), Handler) as httpd:
         print(f"Visor de apuntes en http://localhost:{PORT}{VIEWER}  (raíz: {ROOT})", flush=True)
         httpd.serve_forever()

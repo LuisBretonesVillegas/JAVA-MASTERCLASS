@@ -1,6 +1,6 @@
 # Ejercicios recomendados de *Introduction to Java Programming and Data Structures* (Liang, 11.ª ed. Global)
 
-Libro: `INGENIERIA-INFORMATICA/LIBROS-PIRATA-LENGUAJES-PROGRAMACIÓN/LIBRO-JAVA.pdf`.
+Libro: Y. Daniel Liang, *Introduction to Java Programming and Data Structures*, 11.ª edición (Global Edition), Pearson.
 Los números son los de los **Programming Exercises** al final de cada capítulo (edición *Global*;
 algunos números difieren de la edición de EE. UU.). Los asteriscos `*` del libro indican la dificultad.
 

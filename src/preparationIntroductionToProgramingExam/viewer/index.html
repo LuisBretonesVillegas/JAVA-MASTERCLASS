@@ -332,7 +332,7 @@ function renderHome(){
       <div class="kicker">Introducción a la Programación // UAL 2026-27</div>
       <h1>Apuntes IP</h1>
       <p class="sub">Arrays, matrices y POO en Java</p>
-      <p>Todo lo que escribo en el IDE, organizado por secciones. Se actualiza solo cada vez que guardo un archivo.</p>
+      <p>${window.EMBEDDED ? `Mis apuntes para el examen de IP: análisis de exámenes, resúmenes, fichas de POO, ejercicios y simulacros. Actualizado el ${new Date(window.EMBEDDED.built).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"})}.` : "Todo lo que escribo en el IDE, organizado por secciones. Se actualiza solo cada vez que guardo un archivo."}</p>
       <div class="btns">${sims.map((d,i)=>`<a class="btn ${i?"ghost":"solid"}" href="#/${d.key}">${esc(d.title.replace(/:.*/,""))} →</a>`).join("")}</div>
     </div>
     <div class="block"><div class="eyebrow">Por dónde // empezar</div>
@@ -480,9 +480,15 @@ document.getElementById("menuBtn").onclick = ()=>{
 };
 window.addEventListener("hashchange", ()=>render(false));
 marked.setOptions({gfm:true});
+if (window.EMBEDDED){ const b = document.querySelector(".brand"); b.href = "/"; b.querySelector("small").textContent = "Study · IP Java"; }
 
 let sig = "";
 async function poll(){
+  // Versión estática (study.luisbretones.dev): los apuntes vienen incrustados y no hay servidor.
+  if (window.EMBEDDED){
+    files = window.EMBEDDED.files.map(f=>{ cache.set(f.path,{mtime:f.mtime,text:f.text}); return {path:f.path, mtime:f.mtime}; });
+    build(); await render(false); return;
+  }
   try{
     const first = !sig;
     const list = await (await fetch(first ? "/api/tree?full=1" : "/api/tree")).json();
