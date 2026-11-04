@@ -55,7 +55,14 @@ header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px s
 
 /* lateral de la sección */
 .side .area{font:700 22px var(--serif);text-decoration:none;display:block;margin:4px 0 18px}
-.side .sub{margin:18px 0 6px}
+.side .sub{display:block;margin:26px 0 8px;font:700 17px/1.3 var(--serif);color:var(--text);text-decoration:none}
+.side .sub small{display:block;font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+.side a.sub.closed{color:var(--text-muted);font-size:15px;margin:14px 0 4px}
+.side a.sub.closed:hover{color:var(--text)}
+.subhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 6px}
+.subhead h2{font:800 clamp(28px,3.6vw,36px)/1.15 var(--serif);letter-spacing:-.015em;margin:0}
+.subhead .count{font:600 10.4px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
+.subkick{font:600 10.4px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
 .side a.it{display:block;padding:6px 10px;margin-left:-12px;border-left:2px solid transparent;font-size:14px;line-height:1.4;color:var(--text-muted);text-decoration:none}
 .side a.it:hover{color:var(--text)}
 .side a.it.on{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:500}
@@ -90,6 +97,19 @@ header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px s
 .md blockquote{margin:18px 0;padding:12px 18px;border-left:2px solid var(--accent);background:var(--accent-soft)}
 .md blockquote p{margin:.3em 0}
 .md mark{background:rgba(26,92,0,.2);color:inherit;padding:0 1px;border-radius:2px}
+.btns{display:flex;gap:10px;margin:26px 0 4px;flex-wrap:wrap}
+.btn{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:10px 15px;border-radius:2px;text-decoration:none;border:1px solid var(--accent)}
+.btn.solid{background:var(--accent);color:var(--bg)}
+.btn.ghost{color:var(--accent)}
+.md details{margin:26px 0;border:1px solid var(--accent-line);border-radius:3px;background:rgba(255,255,255,.3)}
+.md details>summary{cursor:pointer;list-style:none;padding:14px 18px;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.md details>summary::-webkit-details-marker{display:none}
+.md details>summary::before{content:"+ "}
+.md details[open]>summary::before{content:"− "}
+.md details[open]>summary{border-bottom:1px solid var(--line)}
+.md details>*:not(summary){margin-left:18px;margin-right:18px}
+.md details>pre{margin-left:18px;margin-right:18px}
+.md details>:last-child{margin-bottom:18px}
 .statement{white-space:pre-wrap;background:var(--bg-card);border:1px solid var(--line);border-left:2px solid var(--accent);padding:18px 20px;border-radius:2px;font-size:14.5px;color:var(--text-2)}
 .filehead{font:500 11px var(--mono);letter-spacing:.06em;color:var(--accent);margin:28px 0 8px}
 .pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:760px;margin-top:64px;padding-top:28px;border-top:1px solid var(--line)}
@@ -156,7 +176,9 @@ header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px s
   .mnav .tabsm a.on{color:var(--accent)}
   .mnav .sidem{margin-top:26px}
   .mnav .sidem .area,.mnav .sidem>.eyebrow:first-child{display:none}
-  .mnav .sidem .sub{margin:18px 0 6px}
+  .mnav .sidem .sub{display:block;margin:22px 0 6px;font:700 18px/1.3 var(--serif);color:var(--text);text-decoration:none}
+  .mnav .sidem .sub small{display:block;font:600 9.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .mnav .sidem a.sub.closed{color:var(--text-muted);font-size:16px}
   .mnav .sidem a.it{display:block;padding:7px 10px;border-left:2px solid transparent;font-size:15px;color:var(--text-muted);text-decoration:none}
   .mnav .sidem a.it.on{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)} }
 </style>
@@ -178,6 +200,7 @@ const AREAS = [
   {id:"examen",    name:"Examen",           desc:"El patrón de los exámenes de IP y las fichas de POO que caen y todavía no se han dado en clase."},
   {id:"resumenes", name:"Resúmenes",        desc:"Contenidos y fórmulas de IP2027 (sesiones 01-05) y del curso de Udemy (secciones 05-09)."},
   {id:"udemy",     name:"Ejercicios Udemy", desc:"Enunciado y código de cada ejercicio de las secciones 05 a 09, filtrables por tipo."},
+  {id:"simulacros",name:"Simulacros",       desc:"Dos exámenes completos de práctica con el formato de la UAL, salida esperada y solución plegada."},
   {id:"notas",     name:"Notas",            desc:"Ejercicios recomendados del libro de Liang, plan de estudio, errores típicos y simulacro."},
 ];
 const TYPES = {
@@ -197,6 +220,7 @@ function place(path){
     if (rel.includes("/contenidosPOOExamen/")) return {area:"examen", sub:"Fichas de POO", order: name==="README.md" ? 1 : 2 + parseInt(name)||9};
     if (/ipCollegeClass\//.test(rel)) return {area:"resumenes", sub:"IP2027", order:0};
     if (/udemyCourse\//.test(rel)) return {area:"resumenes", sub:"Udemy", order:1};
+    if (rel.startsWith("practiceExams/")) return {area:"simulacros", sub:"Exámenes de práctica", order:parseInt((name.match(/\d+/)||[9])[0])};
     if (rel.startsWith("Notes/")) return {area:"notas", sub:"Estudio", order:/Seleccion/.test(name)?0:1};
     return {area:"resumenes", sub:"Otros", order:5};
   }
@@ -246,6 +270,9 @@ function build(){
   docs.sort((a,b)=> AREAS.findIndex(x=>x.id===a.area)-AREAS.findIndex(x=>x.id===b.area) || a.order-b.order || a.key.localeCompare(b.key,undefined,{numeric:true}));
 }
 const inArea = id => docs.filter(d=>d.area===id);
+// "Sección 05 · Condicionales y métodos" → {kick:"Sección 05", title:"Condicionales y métodos"}
+function splitSub(sub){ const m = sub.match(/^(Sección \d+) · (.+)$/); return m ? {kick:m[1], title:m[2]} : {kick:"", title:sub}; }
+function subLabel(sub){ const sp = splitSub(sub); return (sp.kick?`<small>${esc(sp.kick)}</small>`:"") + esc(sp.title); }
 function groupBy(list){ const g=new Map(); for (const d of list){ if(!g.has(d.sub)) g.set(d.sub,[]); g.get(d.sub).push(d); } return g; }
 
 async function getText(f){
@@ -296,20 +323,24 @@ function renderHome(){
     [find(/Resumen_IP2027/), "Arrays, matrices y el esqueleto de menú de clase."],
     [find(/Seleccion_Ejercicios/), "Los ejercicios del libro que más se parecen al examen."],
     [find(/Contenidos_Extra/), "Plan por fases, errores típicos y un simulacro de 2 horas."],
+    [find(/Simulacro_01/), "Examen completo de práctica: arrays + biblioteca. 2 horas."],
+    [find(/Simulacro_02/), "Examen completo de práctica: matrices + liga de fútbol. 2 horas."],
   ].filter(s=>s[0]);
+  const sims = inArea("simulacros");
   app.innerHTML = `<div class="page">
     <div class="hero">
       <div class="kicker">Introducción a la Programación // UAL 2026-27</div>
       <h1>Apuntes IP</h1>
       <p class="sub">Arrays, matrices y POO en Java</p>
-      <p>Todo lo que escribo en el IDE, organizado en cuatro secciones. Se actualiza solo cada vez que guardo un archivo.</p>
+      <p>Todo lo que escribo en el IDE, organizado por secciones. Se actualiza solo cada vez que guardo un archivo.</p>
+      <div class="btns">${sims.map((d,i)=>`<a class="btn ${i?"ghost":"solid"}" href="#/${d.key}">${esc(d.title.replace(/:.*/,""))} →</a>`).join("")}</div>
     </div>
     <div class="block"><div class="eyebrow">Por dónde // empezar</div>
       <div class="steps">${steps.map(([d,why])=>`<a href="#/${d.key}"><div><b>${esc(d.title)}</b><small>${why}</small></div><span class="go">Leer →</span></a>`).join("")}</div>
     </div>
     <div class="block"><div class="eyebrow">Secciones</div>
       <div class="cards">${AREAS.map(a=>`<a class="card" href="#s/${a.id}">
-        <div class="kicker">${inArea(a.id).length} ${a.id==="udemy"?"ejercicios":"apuntes"}</div>
+        <div class="kicker">${inArea(a.id).length} ${a.id==="udemy"?"ejercicios":a.id==="simulacros"?"exámenes":"apuntes"}</div>
         <h3>${a.name}</h3><p>${a.desc}</p><span class="go">Abrir →</span></a>`).join("")}</div>
     </div></div>`;
 }
@@ -326,7 +357,8 @@ function renderArea(id){
   let html = `<div class="page"><div class="kicker">Sección</div><h1 class="title-xl">${a.name}</h1><p class="intro">${a.desc}</p>${chips}`;
   let n = 0;
   for (const [sub, ds] of groupBy(list)){
-    html += `<div class="block"><div class="eyebrow">${esc(sub)}</div><div class="list">` + ds.map(d=>`<a class="row" href="#/${d.key}">
+    const sp = splitSub(sub), unit = id==="udemy" ? (ds.length===1?"ejercicio":"ejercicios") : (ds.length===1?"apunte":"apuntes");
+    html += `<div class="block">${sp.kick?`<div class="subkick">${esc(sp.kick)}</div>`:""}<div class="subhead"><h2>${esc(sp.title)}</h2><span class="count">${ds.length} ${unit}</span></div><div class="list">` + ds.map(d=>`<a class="row" href="#/${d.key}">
       <span class="n">${String(++n).padStart(2,"0")}</span><b>${esc(d.title)}</b><span class="go">Leer →</span>
       ${d.desc?`<p>${esc(d.desc)}</p>`:""}${d.type?`<span class="tags"><span class="tag" style="${cv(d.type)}">${TYPES[d.type].label.toLowerCase()}</span>${d.files.length>1?`<span class="tag" style="--c:var(--text-muted);--cl:var(--line)">${d.files.length} archivos</span>`:""}</span>`:""}
     </a>`).join("") + `</div></div>`;
@@ -378,8 +410,8 @@ async function renderDoc(d, q){
   for (const [sub, ds] of groupBy(list)){
     const collapse = d.area==="udemy" && sub!==d.sub;      // en Udemy solo se despliega la sección actual
     side += collapse
-      ? `<a class="eyebrow sub" style="display:block;text-decoration:none" href="#/${ds[0].key}">+ ${esc(sub)} (${ds.length})</a>`
-      : `<div class="eyebrow sub">${esc(sub)}</div>` + ds.map(x=>`<a class="it ${x===d?"on":""}" href="#/${x.key}">${esc(x.title)}</a>`).join("");
+      ? `<a class="sub closed" href="#/${ds[0].key}">${subLabel(sub)} <span style="font:500 11px var(--mono)">(${ds.length})</span></a>`
+      : `<div class="sub">${subLabel(sub)}</div>` + ds.map(x=>`<a class="it ${x===d?"on":""}" href="#/${x.key}">${esc(x.title)}</a>`).join("");
   }
   const prev = list[idx-1], next = list[idx+1];
   const pager = `<div class="pager">${prev?`<a href="#/${prev.key}"><span class="eyebrow">← Anterior</span><b>${esc(prev.title)}</b></a>`:""}${next?`<a class="next" href="#/${next.key}"><span class="eyebrow">Siguiente →</span><b>${esc(next.title)}</b></a>`:""}</div>`;

@@ -46,20 +46,9 @@ System.out.printf("%d %5.2f %-10s %n")
 array.clone(), System.arraycopy(src, 0, dst, 0, n)
 ```
 
-## 4. Simulacro (estilo 26/27), en papel y en 2 horas
+## 4. Simulacros
+Hay dos simulacros completos con formato de examen, salida esperada, solución (plegada) y criterios de corrección,
+todos probados en Java:
 
-**Ejercicio 1 (5 p).** `BuscadorApp`, con un menú: 1. Leer y validar · 2. Eliminar duplicados · 3. Buscar (binaria) · 4. Salir.
-1. (1 p) Menú y control de "primero la opción 1".
-2. (1,5 p) Leer N (>0) enteros en `[-50, 50]`, **validando que estén en orden ascendente**.
-3. (1 p) Crear un array nuevo **sin duplicados** y mostrarlo.
-4. (1,5 p) Pedir un valor y buscarlo con **búsqueda binaria**: mostrar la posición o "no encontrado".
-
-**Ejercicio 2 (5 p).** Biblioteca: `Libro`, `Estanteria`, `LibroParser`, `FormatoLibroException`, `BibliotecaApp`, `FuenteDeDatos`.
-1. (1 p) `Libro(isbn, titulo, autor, año, paginas)` con `toString` y `equals` (iguales si tienen el mismo ISBN).
-2. (1 p) `Libro implements Comparable`: por autor y, si empatan, por año, de más reciente a más antiguo.
-3. (1,5 p) `FormatoLibroException extends Exception` y `LibroParser.parse("LIBRO;isbn;titulo;autor;año;paginas")`,
-   que lanza la excepción si faltan campos o los números no son válidos.
-4. (1,5 p) `Estanteria` con `Libro[]` + contador: `agregar` (que no admita repetidos según `equals`), `ordenar()` por **inserción** y `mostrar()`.
-   `BibliotecaApp` recorre `FuenteDeDatos.DATOS` (`String[]` con alguna línea errónea), captura las excepciones, ordena y muestra.
-
-*(Para corregirlo, compara con las soluciones de 23/24 ord. (validación de orden) y de 25/26 ord. y extra. (parser + inserción).)*
+- [Simulacro 1: convocatoria ordinaria](../practiceExams/Simulacro_01_Ordinario.md): `BuscadorApp` (validar orden, eliminar duplicados, búsqueda binaria) + biblioteca (`Libro`, `Comparable` doble, parser con `FormatoLibroException`, inserción).
+- [Simulacro 2: convocatoria extraordinaria](../practiceExams/Simulacro_02_Extraordinario.md): `TemperaturasApp` (matriz de reales, medias por columna, rachas) + liga de fútbol (`Comparable` triple, parser con `ResultadoInvalidoException`, burbuja).

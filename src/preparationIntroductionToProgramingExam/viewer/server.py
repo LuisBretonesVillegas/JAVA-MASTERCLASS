@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]          # .../JAVA-UDEMY/src
 VIEWER = "/preparationIntroductionToProgramingExam/viewer/"
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8765
-SKIP_DIRS = {"viewer", "out", "target", ".idea", "practiceExams"}
+SKIP_DIRS = {"viewer", "out", "target", ".idea"}   # los PDF nunca se sirven: solo .md/.java
 
 
 def is_content(p: Path) -> bool:
