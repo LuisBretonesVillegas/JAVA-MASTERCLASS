@@ -206,7 +206,7 @@ const AREAS = [
   {id:"examen",    name:"Examen",           desc:"El patrón de los exámenes de IP y las fichas de POO que caen y todavía no se han dado en clase."},
   {id:"resumenes", name:"Resúmenes",        desc:"Contenidos y fórmulas de IP2027 (sesiones 01-05) y del curso de Udemy (secciones 05-09)."},
   {id:"udemy",     name:"Ejercicios Udemy", desc:"Enunciado y código de cada ejercicio de las secciones 05 a 09, filtrables por tipo."},
-  {id:"liang",     name:"Ejercicios Liang", desc:"Enunciado y código de los ejercicios resueltos del libro de Liang, por capítulo y filtrables por dificultad."},
+  {id:"liang",     name:"Ejercicios Liang", desc:"Enunciado y código de los ejercicios resueltos del libro de Liang, por capítulo y filtrables por prioridad y dificultad."},
   {id:"simulacros",name:"Simulacros",       desc:"Dos exámenes completos de práctica con el formato de la UAL, salida esperada y solución plegada."},
   {id:"notas",     name:"Notas",            desc:"Ejercicios recomendados del libro de Liang, plan de estudio, errores típicos y simulacro."},
 ];
@@ -222,6 +222,10 @@ const CHAPTER = {"01":["Introducción a Java","cond"],"02":["Programación eleme
 // Dificultad del libro: la primera línea del comentario es "N star(s)", con una nota opcional tras "//"
 const LEVELS = [{label:"Sin estrellas",c:"--c-teal"},{label:"★",c:"--c-blue"},{label:"★★",c:"--c-orange"},{label:"★★★",c:"--c-green"}];
 const lv = n => `--c:var(${LEVELS[n].c});--cl:var(${LEVELS[n].c}-l)`;
+// Prioridad: carpeta prioridadAlta / prioridadMedia / prioridadBaja dentro del capítulo (en la página, en inglés)
+const PRIORITY = [{label:"High priority",c:"--c-orange"},{label:"Medium priority",c:"--c-blue"},{label:"Low priority",c:"--c-teal"}];
+const pv = n => `--c:var(${PRIORITY[n].c});--cl:var(${PRIORITY[n].c}-l)`;
+const priorityOf = rel => { const m = rel.match(/\/prioridad(alta|media|baja)\//i); return m ? ["alta","media","baja"].indexOf(m[1].toLowerCase()) : null; };
 function liangHead(comment){
   const m = comment.match(/^\s*(\d)\s*stars?\b[ \t]*(?:\/\/[ \t]*(.*))?\r?\n/i);
   return m ? {level:Math.min(+m[1],3), note:(m[2]||"").trim(), rest:comment.slice(m[0].length)} : {level:null, note:"", rest:comment};
@@ -240,7 +244,7 @@ function place(path){
     if ((m = rel.match(/^exercisesLiang\/(?:section|chapter)(\d+)\//))){
       const c = m[1].padStart(2,"0"), ch = CHAPTER[c] || ["",null];
       const n = name.match(/(\d+)_(\d+)\.java$/);
-      return {area:"liang", sub:`Capítulo ${c}${ch[0]?" · "+ch[0]:""}`, order:parseInt(c), type:ch[1], num: n ? parseInt(n[1])*1000+parseInt(n[2]) : 1e9, numLabel: n ? `${n[1]}.${n[2]}` : ""};
+      return {area:"liang", sub:`Capítulo ${c}${ch[0]?" · "+ch[0]:""}`, order:parseInt(c), type:ch[1], priority:priorityOf(rel), num: n ? parseInt(n[1])*1000+parseInt(n[2]) : 1e9, numLabel: n ? `${n[1]}.${n[2]}` : ""};
     }
     if (rel.startsWith("Notes/")) return {area:"notas", sub:"Estudio", order:/Seleccion/.test(name)?0:1};
     return {area:"resumenes", sub:"Otros", order:5};
@@ -289,7 +293,7 @@ function build(){
       if (d.desc.length > 170) d.desc = d.desc.slice(0,167).replace(/\s\S*$/,"") + "…";
     }
   }
-  docs.sort((a,b)=> AREAS.findIndex(x=>x.id===a.area)-AREAS.findIndex(x=>x.id===b.area) || a.order-b.order || (a.num??0)-(b.num??0) || a.key.localeCompare(b.key,undefined,{numeric:true}));
+  docs.sort((a,b)=> AREAS.findIndex(x=>x.id===a.area)-AREAS.findIndex(x=>x.id===b.area) || a.order-b.order || (a.priority??9)-(b.priority??9) || (a.num??0)-(b.num??0) || a.key.localeCompare(b.key,undefined,{numeric:true}));
 }
 const inArea = id => docs.filter(d=>d.area===id);
 // "Sección 05 · Condicionales y métodos" → {kick:"Sección 05", title:"Condicionales y métodos"}
@@ -316,7 +320,7 @@ function parse(){
   return {view:"home"};
 }
 const app = document.getElementById("app");
-let typeFilter = new Set(), levelFilter = new Set();
+let typeFilter = new Set(), levelFilter = new Set(), prioFilter = new Set();
 
 function renderTabs(r){
   const cur = r.view==="area" ? r.id : r.view==="doc" ? byKey(r.key)?.area : null;
@@ -377,7 +381,9 @@ function renderArea(id){
     if (typeFilter.size) list = list.filter(d=>typeFilter.has(d.type));
   }
   if (id==="liang"){
-    chips = `<div class="chips">${LEVELS.map((l,k)=>`<button class="chip ${levelFilter.has(k)?"on":""}" data-l="${k}" style="${lv(k)}">${l.label}</button>`).join("")}</div>`;
+    chips = `<div class="chips">${PRIORITY.map((p,k)=>`<button class="chip ${prioFilter.has(k)?"on":""}" data-p="${k}" style="${pv(k)}">${p.label}</button>`).join("")}</div>`
+      + `<div class="chips" style="margin-top:0">${LEVELS.map((l,k)=>`<button class="chip ${levelFilter.has(k)?"on":""}" data-l="${k}" style="${lv(k)}">${l.label}</button>`).join("")}</div>`;
+    if (prioFilter.size) list = list.filter(d=>prioFilter.has(d.priority));
     if (levelFilter.size) list = list.filter(d=>levelFilter.has(d.level));
   }
   let html = `<div class="page"><div class="kicker">Sección</div><h1 class="title-xl">${a.name}</h1><p class="intro">${a.desc}</p>${chips}`;
@@ -392,13 +398,14 @@ function renderArea(id){
   if (!list.length) html += `<p class="empty" style="margin-top:30px">No hay ejercicios de ese tipo.</p>`;
   app.innerHTML = html + `</div>`;
   app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
-    const set = b.dataset.l!==undefined ? levelFilter : typeFilter, k = b.dataset.l!==undefined ? +b.dataset.l : b.dataset.t;
+    const [set, k] = b.dataset.p!==undefined ? [prioFilter, +b.dataset.p] : b.dataset.l!==undefined ? [levelFilter, +b.dataset.l] : [typeFilter, b.dataset.t];
     set.has(k)?set.delete(k):set.add(k); renderArea(id);
   });
 }
 
-// etiquetas de dificultad y nota de los ejercicios de Liang
-const levelTags = d => (d.level!=null ? `<span class="tag" style="${lv(d.level)}">${LEVELS[d.level].label.toLowerCase()}</span>` : "")
+// etiquetas de prioridad, dificultad y nota de los ejercicios de Liang
+const levelTags = d => (d.priority!=null ? `<span class="tag" style="${pv(d.priority)}">${PRIORITY[d.priority].label.toLowerCase()}</span>` : "")
+  + (d.level!=null ? `<span class="tag" style="${lv(d.level)}">${LEVELS[d.level].label.toLowerCase()}</span>` : "")
   + (d.note ? `<span class="tag" style="--c:var(--text-muted);--cl:var(--line)">${esc(d.note.toLowerCase())}</span>` : "");
 
 /* ---------- Búsqueda ---------- */
