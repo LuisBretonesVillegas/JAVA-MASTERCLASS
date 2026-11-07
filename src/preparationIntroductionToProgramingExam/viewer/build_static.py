@@ -8,6 +8,7 @@ Uso:
 Solo incluye .md, .java y enunciados; nunca PDFs.
 """
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -28,7 +29,10 @@ def main():
 
     files = server.tree(full=True)
     assert not any(f["path"].lower().endswith(".pdf") for f in files)
-    data = {"built": int(time.time() * 1000), "files": files}
+    # BUILD_TIME_MS lo fija el workflow nocturno de study (fecha del último commit),
+    # así la salida solo cambia cuando cambian los apuntes
+    built = int(os.environ.get("BUILD_TIME_MS") or time.time() * 1000)
+    data = {"built": built, "files": files}
     # "</" escapado para que ningún texto pueda cerrar el <script>
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     html = html.replace("<title>Apuntes IP Java</title>", "<title>Apuntes IP Java | Luis Bretones</title>\n<meta name=\"robots\" content=\"noindex\">\n<link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\">")

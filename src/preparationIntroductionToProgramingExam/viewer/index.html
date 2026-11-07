@@ -200,6 +200,7 @@ const AREAS = [
   {id:"examen",    name:"Examen",           desc:"El patrón de los exámenes de IP y las fichas de POO que caen y todavía no se han dado en clase."},
   {id:"resumenes", name:"Resúmenes",        desc:"Contenidos y fórmulas de IP2027 (sesiones 01-05) y del curso de Udemy (secciones 05-09)."},
   {id:"udemy",     name:"Ejercicios Udemy", desc:"Enunciado y código de cada ejercicio de las secciones 05 a 09, filtrables por tipo."},
+  {id:"liang",     name:"Ejercicios Liang", desc:"Enunciado y código de los ejercicios resueltos del libro de Liang, por capítulo y filtrables por dificultad."},
   {id:"simulacros",name:"Simulacros",       desc:"Dos exámenes completos de práctica con el formato de la UAL, salida esperada y solución plegada."},
   {id:"notas",     name:"Notas",            desc:"Ejercicios recomendados del libro de Liang, plan de estudio, errores típicos y simulacro."},
 ];
@@ -210,6 +211,15 @@ const TYPES = {
   arr: {label:"Arrays",                  c:"--c-orange"},
 };
 const cv = t => `--c:var(${TYPES[t].c});--cl:var(${TYPES[t].c}-l)`;
+// Capítulos del libro de Liang (Introduction to Java Programming)
+const CHAPTER = {"01":["Introducción a Java","cond"],"02":["Programación elemental","cond"],"03":["Selecciones","cond"],"04":["Funciones matemáticas, caracteres y strings","cond"],"05":["Bucles","loop"],"06":["Métodos","cond"],"07":["Arrays unidimensionales","arr"],"08":["Arrays multidimensionales","arr"],"09":["Objetos y clases","poo"],"10":["Pensamiento orientado a objetos","poo"],"11":["Herencia y polimorfismo","poo"],"12":["Excepciones y E/S de texto","poo"],"13":["Clases abstractas e interfaces","poo"]};
+// Dificultad del libro: la primera línea del comentario es "N star(s)", con una nota opcional tras "//"
+const LEVELS = [{label:"Sin estrellas",c:"--c-teal"},{label:"★",c:"--c-blue"},{label:"★★",c:"--c-orange"},{label:"★★★",c:"--c-green"}];
+const lv = n => `--c:var(${LEVELS[n].c});--cl:var(${LEVELS[n].c}-l)`;
+function liangHead(comment){
+  const m = comment.match(/^\s*(\d)\s*stars?\b[ \t]*(?:\/\/[ \t]*(.*))?\r?\n/i);
+  return m ? {level:Math.min(+m[1],3), note:(m[2]||"").trim(), rest:comment.slice(m[0].length)} : {level:null, note:"", rest:comment};
+}
 const SECTION = {"05":["Condicionales y métodos","cond"],"06":["Bucles y números","loop"],"07":["POO I · clases y herencia","poo"],"08":["POO II · composición y polimorfismo","poo"],"09":["Arrays","arr"]};
 
 function place(path){
@@ -221,6 +231,11 @@ function place(path){
     if (/ipCollegeClass\//.test(rel)) return {area:"resumenes", sub:"IP2027", order:0};
     if (/udemyCourse\//.test(rel)) return {area:"resumenes", sub:"Udemy", order:1};
     if (rel.startsWith("practiceExams/")) return {area:"simulacros", sub:"Exámenes de práctica", order:parseInt((name.match(/\d+/)||[9])[0])};
+    if ((m = rel.match(/^exercisesLiang\/(?:section|chapter)(\d+)\//))){
+      const c = m[1].padStart(2,"0"), ch = CHAPTER[c] || ["",null];
+      const n = name.match(/(\d+)_(\d+)\.java$/);
+      return {area:"liang", sub:`Capítulo ${c}${ch[0]?" · "+ch[0]:""}`, order:parseInt(c), type:ch[1], num: n ? parseInt(n[1])*1000+parseInt(n[2]) : 1e9, numLabel: n ? `${n[1]}.${n[2]}` : ""};
+    }
     if (rel.startsWith("Notes/")) return {area:"notas", sub:"Estudio", order:/Seleccion/.test(name)?0:1};
     return {area:"resumenes", sub:"Otros", order:5};
   }
@@ -252,7 +267,7 @@ function build(){
     d.mtime = Math.max(...d.files.map(f=>f.mtime));
     const last = d.key.split("/").pop();
     d.title = d.folder ? "Ejercicio " + last.replace("exercise","")
-      : last.replace(/\.(md|java)$/,"").replace(/([A-Za-z])(\d)/g,"$1 $2").replace(/_/g," ").replace(/([a-z])([A-Z])/g,"$1 $2");
+      : (d.numLabel ? d.numLabel + " · " : "") + last.replace(/\.(md|java)$/,"").replace(/\d+_\d+$/,"").replace(/([A-Za-z])(\d)/g,"$1 $2").replace(/_/g," ").replace(/([a-z])([A-Z])/g,"$1 $2");
     d.desc = "";
     const t = cache.get(d.files[0].path)?.text;
     if (t){
@@ -261,17 +276,18 @@ function build(){
         const para = t.split(/\n\s*\n/).map(x=>x.trim()).find(x=>x && !/^[#|`>\-]/.test(x) && !/^\d+\./.test(x));
         if (para) d.desc = plain(para.replace(/\n/g," "));
       } else {
-        const st = isStatement(d.files[0].path) ? t : (t.match(/\/\*([\s\S]*?)\*\//)||[])[1] || "";
+        let st = isStatement(d.files[0].path) ? t : (t.match(/\/\*([\s\S]*?)\*\//)||[])[1] || "";
+        if (d.area==="liang"){ const h = liangHead(st); d.level = h.level; d.note = h.note; st = h.rest; }
         d.desc = st.replace(/^\s*\* ?/gm,"").replace(/\s+/g," ").trim();
       }
       if (d.desc.length > 170) d.desc = d.desc.slice(0,167).replace(/\s\S*$/,"") + "…";
     }
   }
-  docs.sort((a,b)=> AREAS.findIndex(x=>x.id===a.area)-AREAS.findIndex(x=>x.id===b.area) || a.order-b.order || a.key.localeCompare(b.key,undefined,{numeric:true}));
+  docs.sort((a,b)=> AREAS.findIndex(x=>x.id===a.area)-AREAS.findIndex(x=>x.id===b.area) || a.order-b.order || (a.num??0)-(b.num??0) || a.key.localeCompare(b.key,undefined,{numeric:true}));
 }
 const inArea = id => docs.filter(d=>d.area===id);
 // "Sección 05 · Condicionales y métodos" → {kick:"Sección 05", title:"Condicionales y métodos"}
-function splitSub(sub){ const m = sub.match(/^(Sección \d+) · (.+)$/); return m ? {kick:m[1], title:m[2]} : {kick:"", title:sub}; }
+function splitSub(sub){ const m = sub.match(/^((?:Sección|Capítulo) \d+)(?: · (.+))?$/); return m ? {kick:m[2]?m[1]:"", title:m[2]||m[1]} : {kick:"", title:sub}; }
 function subLabel(sub){ const sp = splitSub(sub); return (sp.kick?`<small>${esc(sp.kick)}</small>`:"") + esc(sp.title); }
 function groupBy(list){ const g=new Map(); for (const d of list){ if(!g.has(d.sub)) g.set(d.sub,[]); g.get(d.sub).push(d); } return g; }
 
@@ -294,7 +310,7 @@ function parse(){
   return {view:"home"};
 }
 const app = document.getElementById("app");
-let typeFilter = new Set();
+let typeFilter = new Set(), levelFilter = new Set();
 
 function renderTabs(r){
   const cur = r.view==="area" ? r.id : r.view==="doc" ? byKey(r.key)?.area : null;
@@ -340,7 +356,7 @@ function renderHome(){
     </div>
     <div class="block"><div class="eyebrow">Secciones</div>
       <div class="cards">${AREAS.map(a=>`<a class="card" href="#s/${a.id}">
-        <div class="kicker">${inArea(a.id).length} ${a.id==="udemy"?"ejercicios":a.id==="simulacros"?"exámenes":"apuntes"}</div>
+        <div class="kicker">${inArea(a.id).length} ${a.id==="udemy"||a.id==="liang"?"ejercicios":a.id==="simulacros"?"exámenes":"apuntes"}</div>
         <h3>${a.name}</h3><p>${a.desc}</p><span class="go">Abrir →</span></a>`).join("")}</div>
     </div></div>`;
 }
@@ -354,19 +370,30 @@ function renderArea(id){
     chips = `<div class="chips">${Object.entries(TYPES).map(([k,t])=>`<button class="chip ${typeFilter.has(k)?"on":""}" data-t="${k}" style="${cv(k)}">${t.label}</button>`).join("")}</div>`;
     if (typeFilter.size) list = list.filter(d=>typeFilter.has(d.type));
   }
+  if (id==="liang"){
+    chips = `<div class="chips">${LEVELS.map((l,k)=>`<button class="chip ${levelFilter.has(k)?"on":""}" data-l="${k}" style="${lv(k)}">${l.label}</button>`).join("")}</div>`;
+    if (levelFilter.size) list = list.filter(d=>levelFilter.has(d.level));
+  }
   let html = `<div class="page"><div class="kicker">Sección</div><h1 class="title-xl">${a.name}</h1><p class="intro">${a.desc}</p>${chips}`;
   let n = 0;
   for (const [sub, ds] of groupBy(list)){
-    const sp = splitSub(sub), unit = id==="udemy" ? (ds.length===1?"ejercicio":"ejercicios") : (ds.length===1?"apunte":"apuntes");
+    const sp = splitSub(sub), unit = id==="udemy"||id==="liang" ? (ds.length===1?"ejercicio":"ejercicios") : (ds.length===1?"apunte":"apuntes");
     html += `<div class="block">${sp.kick?`<div class="subkick">${esc(sp.kick)}</div>`:""}<div class="subhead"><h2>${esc(sp.title)}</h2><span class="count">${ds.length} ${unit}</span></div><div class="list">` + ds.map(d=>`<a class="row" href="#/${d.key}">
       <span class="n">${String(++n).padStart(2,"0")}</span><b>${esc(d.title)}</b><span class="go">Leer →</span>
-      ${d.desc?`<p>${esc(d.desc)}</p>`:""}${d.type?`<span class="tags"><span class="tag" style="${cv(d.type)}">${TYPES[d.type].label.toLowerCase()}</span>${d.files.length>1?`<span class="tag" style="--c:var(--text-muted);--cl:var(--line)">${d.files.length} archivos</span>`:""}</span>`:""}
+      ${d.desc?`<p>${esc(d.desc)}</p>`:""}${d.type?`<span class="tags"><span class="tag" style="${cv(d.type)}">${TYPES[d.type].label.toLowerCase()}</span>${levelTags(d)}${d.files.length>1?`<span class="tag" style="--c:var(--text-muted);--cl:var(--line)">${d.files.length} archivos</span>`:""}</span>`:""}
     </a>`).join("") + `</div></div>`;
   }
   if (!list.length) html += `<p class="empty" style="margin-top:30px">No hay ejercicios de ese tipo.</p>`;
   app.innerHTML = html + `</div>`;
-  app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{ const k=b.dataset.t; typeFilter.has(k)?typeFilter.delete(k):typeFilter.add(k); renderArea(id); });
+  app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    const set = b.dataset.l!==undefined ? levelFilter : typeFilter, k = b.dataset.l!==undefined ? +b.dataset.l : b.dataset.t;
+    set.has(k)?set.delete(k):set.add(k); renderArea(id);
+  });
 }
+
+// etiquetas de dificultad y nota de los ejercicios de Liang
+const levelTags = d => (d.level!=null ? `<span class="tag" style="${lv(d.level)}">${LEVELS[d.level].label.toLowerCase()}</span>` : "")
+  + (d.note ? `<span class="tag" style="--c:var(--text-muted);--cl:var(--line)">${esc(d.note.toLowerCase())}</span>` : "");
 
 /* ---------- Búsqueda ---------- */
 function renderSearch(q){
@@ -399,7 +426,8 @@ async function renderDoc(d, q){
     else if (isStatement(f.path)) body += `<h2>Enunciado</h2><div class="statement">${esc(text.trim())}</div>`;
     else {
       const m = text.match(/^\s*\/\*([\s\S]*?)\*\/\s*/), single = d.files.length === 1;
-      if (m && single) body += `<h2>Enunciado</h2><div class="statement">${esc(m[1].replace(/^\s*\* ?/gm,"").trim())}</div>`;
+      const stmt = m ? (d.area==="liang" ? liangHead(m[1]).rest : m[1]) : "";
+      if (m && single) body += `<h2>Enunciado</h2><div class="statement">${esc(stmt.replace(/^\s*\* ?/gm,"").trim())}</div>`;
       body += `${single?"<h2>Solución</h2>":""}<div class="filehead">${esc(name)}</div><pre><code class="language-java">${esc(m && single ? text.slice(m[0].length) : text)}</code></pre>`;
     }
   }
@@ -408,7 +436,7 @@ async function renderDoc(d, q){
   const area = AREAS.find(a=>a.id===d.area), list = inArea(d.area), idx = list.indexOf(d);
   let side = `<div class="eyebrow">Sección</div><a class="area" href="#s/${area.id}">${area.name}</a>`;
   for (const [sub, ds] of groupBy(list)){
-    const collapse = d.area==="udemy" && sub!==d.sub;      // en Udemy solo se despliega la sección actual
+    const collapse = (d.area==="udemy"||d.area==="liang") && sub!==d.sub;      // en Udemy y Liang solo se despliega la sección actual
     side += collapse
       ? `<a class="sub closed" href="#/${ds[0].key}">${subLabel(sub)} <span style="font:500 11px var(--mono)">(${ds.length})</span></a>`
       : `<div class="sub">${subLabel(sub)}</div>` + ds.map(x=>`<a class="it ${x===d?"on":""}" href="#/${x.key}">${esc(x.title)}</a>`).join("");
@@ -423,7 +451,7 @@ async function renderDoc(d, q){
   const md = app.querySelector(".md");
 
   const h1 = md.querySelector("h1");
-  const tags = d.type ? `<span class="tag" style="${cv(d.type)}">${TYPES[d.type].label.toLowerCase()}</span>` : "";
+  const tags = d.type ? `<span class="tag" style="${cv(d.type)}">${TYPES[d.type].label.toLowerCase()}</span>${levelTags(d)}` : "";
   h1?.insertAdjacentHTML("afterend", `<div class="meta">${tags}<span class="path">src/${esc(d.key)} · editado ${new Date(d.mtime/1e6).toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"})}</span></div>`);
   md.querySelectorAll("pre code").forEach(el=>hljs.highlightElement(el));
 
