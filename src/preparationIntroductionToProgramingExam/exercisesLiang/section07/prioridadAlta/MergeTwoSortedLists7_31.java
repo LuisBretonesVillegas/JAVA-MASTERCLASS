@@ -9,7 +9,7 @@ program that prompts the user to enter two sorted lists and displays the merged
 list. Here is a sample run. Note the first number in the input indicates the number
 of the elements in the list. This number is not part of the list.
  */
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Arrays;
 import java.util.Scanner;

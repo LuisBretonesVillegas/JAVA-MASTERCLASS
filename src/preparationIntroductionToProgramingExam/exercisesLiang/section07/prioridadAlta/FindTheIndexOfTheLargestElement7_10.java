@@ -7,7 +7,7 @@ Write a test program that prompts the user to enter 10 numbers, invokes this
 method to return the index of the largest element, and displays the index and the
 element itself.
  */
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Scanner;
 

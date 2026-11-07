@@ -8,7 +8,7 @@ input indicates the number of the elements in the list. This number is not part
 of the list.
  */
 
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Arrays;
 import java.util.Scanner;

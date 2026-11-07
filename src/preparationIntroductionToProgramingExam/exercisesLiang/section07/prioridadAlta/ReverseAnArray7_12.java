@@ -5,7 +5,7 @@ the argument and returns this array. Write a test program that prompts the user 
 enter 10 numbers, invokes the method to reverse the numbers, and displays the
 numbers.
  */
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Arrays;
 import java.util.Scanner;

@@ -3,7 +3,7 @@ Write a program that reads the integers between
 1 and 50 and counts the occurrences of each. Assume the input ends with 0. Here
 is a sample run of the program:
  */
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Scanner;
 

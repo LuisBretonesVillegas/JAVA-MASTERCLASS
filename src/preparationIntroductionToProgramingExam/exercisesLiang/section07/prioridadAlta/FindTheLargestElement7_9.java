@@ -7,7 +7,7 @@ Write a test program that prompts the user to enter ten numbers, invokes this
 method to return the maximum value, and displays the maximum value. Here is
 a sample run of the program:
  */
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Scanner;
 

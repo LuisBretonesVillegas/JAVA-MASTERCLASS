@@ -21,7 +21,7 @@ HINT 2:
   4. Si son iguales, ya sabes que x había salido. No hace falta seguir buscando, así que puedes cortar ahí.
   5. Si terminas el bucle sin haber encontrado ninguna coincidencia, x es nuevo.
  */
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Arrays;
 import java.util.Scanner;

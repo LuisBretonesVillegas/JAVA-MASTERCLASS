@@ -8,7 +8,7 @@ way to the top, and the larger values “sink” to the bottom. Write a test pro
 that reads in 10 double numbers, invokes the method, and displays the sorted
 numbers.
  */
-package preparationIntroductionToProgramingExam.exercisesLiang.section07;
+package preparationIntroductionToProgramingExam.exercisesLiang.section07.prioridadAlta;
 
 import java.util.Scanner;
 
