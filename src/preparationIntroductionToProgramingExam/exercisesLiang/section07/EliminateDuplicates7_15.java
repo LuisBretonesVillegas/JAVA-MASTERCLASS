@@ -1,4 +1,4 @@
-/*
+/* 0 star // REPETIR
 Write a method that returns a new array by eliminating the
 duplicate values in the array using the following method header:
 public static int[] eliminateDuplicates(int[] list)

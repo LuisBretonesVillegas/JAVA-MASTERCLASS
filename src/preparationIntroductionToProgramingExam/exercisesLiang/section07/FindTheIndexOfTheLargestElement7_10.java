@@ -1,4 +1,4 @@
-/*
+/* 0 stars
  Write a method that returns the index of the
 largest element in an array of integers. If there is more than one element, return
 the largest index. Use the following header:
