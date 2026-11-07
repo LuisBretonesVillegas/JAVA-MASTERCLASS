@@ -12,7 +12,7 @@ package preparationIntroductionToProgramingExam.exercisesLiang.section07;
 
 import java.util.Scanner;
 
-public class DescendingBubbleSort {
+public class DescendingBubbleSort7_20 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         double[] list = new double[10];
