@@ -1,4 +1,4 @@
-package preparationIntroductionToProgramingExam.exercisesLiang.section09.prioridadBaja.Exercise9_2;
+package preparationIntroductionToProgramingExam.exercisesLiang.section09.prioridadMedia.exercise9_2;
 
 public class Stock {
     public static void main(String[] args) {

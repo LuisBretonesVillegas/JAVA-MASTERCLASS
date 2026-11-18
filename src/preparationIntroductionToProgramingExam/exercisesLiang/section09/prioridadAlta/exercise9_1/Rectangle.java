@@ -1,4 +1,4 @@
-package preparationIntroductionToProgramingExam.exercisesLiang.section09.prioridadAlta.Exercise9_1;
+package preparationIntroductionToProgramingExam.exercisesLiang.section09.prioridadAlta.exercise9_1;
 
 public class Rectangle {
     public static void main(String[] args) {
